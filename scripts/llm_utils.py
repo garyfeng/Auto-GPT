@@ -10,8 +10,6 @@ openai.api_key = cfg.openai_api_key
 def create_chat_completion(messages, model=None, temperature=None, max_tokens=None)->str:
     """Create a chat completion using the OpenAI API"""
     # very crude handling of OpenAPI errors: we simply return an empty string 
-    logger.debug(f"Tokens remaining for response: {tokens_remaining}")
-    logger.debug("------------ CONTEXT SENT TO AI ---------------")
     try:
         if cfg.use_azure:
             response = openai.ChatCompletion.create(
