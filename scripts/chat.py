@@ -139,5 +139,18 @@ def chat_with_ai(
             return assistant_reply
         except openai.error.RateLimitError:
             # TODO: When we switch to langchain, this is built in
+            logger.debug(f"OpenAI API request exceeded rate limit: {e}")
             print("Error: ", "API Rate Limit Reached. Waiting 10 seconds...")
             time.sleep(10)
+        except openai.error.APIError as e:
+            #Handle API error here, e.g. retry or log
+            logger.debug(f"OpenAI API returned an API Error: {e}")
+            print("Error: ", "OpenAI API returned an API Error. Waiting 10 seconds...")
+            time.sleep(10)
+            pass
+        except openai.error.APIConnectionError as e:
+            #Handle connection error here
+            logger.debug(f"Failed to connect to OpenAI API: {e}")
+            print("Error: ", "Failed to connect to OpenAI API. Waiting 10 seconds...")
+            time.sleep(10)
+            pass

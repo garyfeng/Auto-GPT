@@ -72,6 +72,10 @@ class RedisMemory(MemoryProviderSingleton):
         if 'Command Error:' in data:
             return ""
         vector = get_ada_embedding(data)
+
+        # if vector is empty, we treat it as 'command error'
+        if not vector: return ""
+        
         vector = np.array(vector).astype(np.float32).tobytes()
         data_dict = {
             b"data": data,
